@@ -91,3 +91,36 @@ export async function deleteUserAction(currentUserId, pathToRevalidate) {
         }
     }
 }
+
+
+export async function editUserAction(currentUserID, formData, pathToRevalidate) {
+    await connectToDb();
+
+    try {
+        const { firstName, lastName, email, address } = formData;
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: currentUserID, },
+            { firstName, lastName, email, address },
+            { new: true });
+
+        if (updatedUser) {
+            revalidatePath(pathToRevalidate);
+            return {
+                success: true,
+                message: 'User updated successfully'
+            }
+        } else {
+            return {
+                success: false,
+                message: 'Some error occured! Please try again!'
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: 'Some error occured! Please try again!'
+        }
+    }
+}
