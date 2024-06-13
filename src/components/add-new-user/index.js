@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { UserContext } from "@/context"
 import { addNewUserFormControls, addNewUserFromInitialState } from "@/utils"
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 
 const formControls = [];
@@ -20,10 +21,7 @@ const formControls = [];
 
 const AddNewUser = () => {
 
-    const [openPopup, setOpenPopup] = useState(false);
-    const [addNewUserFormData, setAddNewUserFormData] = useState(addNewUserFromInitialState);
-
-
+    const {currentEditedID, setCurrentEditedID, openPopup, setOpenPopup, addNewUserFormData, setAddNewUserFormData} = useContext(UserContext)
     const handleSaveButtonValid = () => {
         return Object.keys(addNewUserFormData).every(
             key => addNewUserFormData[key].trim() !== ''
